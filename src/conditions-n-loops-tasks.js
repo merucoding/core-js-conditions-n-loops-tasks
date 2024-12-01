@@ -179,8 +179,7 @@ function convertNumberToString(numberStr) {
   }
   return res;
 }
-// let res = convertNumberToString('-10');
-// console.log(res);
+
 /**
  * Determines whether a string is a palindrome.
  * In this task, the use of methods of the String and Array classes is not allowed.
@@ -189,12 +188,17 @@ function convertNumberToString(numberStr) {
  * @return {boolean} True if the string is a palindrome, false otherwise.
  *
  * @example:
- *  'abcba'     => true
+ *  'ab c ba'     => true
  *  '0123210'   => true
  *  'qweqwe'    => false
  */
-function isPalindrome(/* str */) {
-  throw new Error('Not implemented');
+function isPalindrome(str) {
+  for (let i = 0; i < Math.floor(str.length / 2); i += 1) {
+    if (str[i] !== str[str.length - 1 - i]) {
+      return false;
+    }
+  }
+  return true;
 }
 
 /**
