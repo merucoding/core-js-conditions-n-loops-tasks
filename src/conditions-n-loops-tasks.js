@@ -363,19 +363,19 @@ function getSpiralMatrix(size) {
  *  ]                 ]
  */
 function rotateMatrix(matrix) {
-  const transpose = matrix;
+  const ref = matrix;
   const arr = [];
 
-  for (let i = 0; i < transpose.length; i += 1) {
+  for (let i = 0; i < ref.length; i += 1) {
     const chunk = [];
-    for (let j = 0; j < transpose.length; j += 1) {
-      chunk[j] = transpose[transpose.length - 1 - j][i];
+    for (let j = 0; j < ref.length; j += 1) {
+      chunk[j] = ref[ref.length - 1 - j][i];
     }
     arr[i] = chunk;
   }
 
-  for (let i = 0; i < transpose.length; i += 1) {
-    transpose[i] = arr[i];
+  for (let i = 0; i < ref.length; i += 1) {
+    ref[i] = arr[i];
   }
   return matrix;
 }
@@ -394,8 +394,29 @@ function rotateMatrix(matrix) {
  *  [2, 9, 5, 9]    => [2, 5, 9, 9]
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
-function sortByAsc(/* arr */) {
-  throw new Error('Not implemented');
+function sortByAsc(arr) {
+  if (arr.length < 2) return arr;
+
+  const pivot = arr[0];
+  const less = [];
+  const greater = [];
+  const ref = arr;
+
+  for (let i = 1; i < arr.length; i += 1) {
+    if (arr[i] < pivot) {
+      less[less.length] = arr[i];
+    } else {
+      greater[greater.length] = arr[i];
+    }
+  }
+
+  const result = [...sortByAsc(less), pivot, ...sortByAsc(greater)];
+
+  for (let i = 0; i < ref.length; i += 1) {
+    ref[i] = result[i];
+  }
+
+  return ref;
 }
 
 /**
