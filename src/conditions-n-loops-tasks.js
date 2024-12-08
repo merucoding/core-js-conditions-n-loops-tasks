@@ -472,10 +472,44 @@ function shuffleChar(str, iterations) {
  * @param {number} number The source number
  * @returns {number} The nearest larger number, or original number if none exists.
  */
-function getNearestBigger(/* number */) {
-  throw new Error('Not implemented');
-}
+function getNearestBigger(number) {
+  const factorial = (n) => (n <= 1 ? 1 : n * factorial(n - 1));
+  const numArr = Array.from(String(number), Number);
 
+  for (let i = 1; i < numArr.length; i += 1) {
+    const chunk = [...numArr];
+    chunk.splice(0, chunk.length - (i + 1));
+
+    const numStart = +chunk.join('');
+    const largestArr = [];
+
+    for (let j = 0; j <= factorial(chunk.length); j += 1) {
+      for (let k = 0; k < chunk.length - 1; k += 1) {
+        [chunk[k], chunk[chunk.length - 1]] = [
+          chunk[chunk.length - 1],
+          chunk[k],
+        ];
+
+        const num = +chunk.join('');
+        if (num > numStart) largestArr.push(num);
+        j += 1;
+      }
+    }
+    const largestNum =
+      String(Math.floor(number / 10 ** chunk.length)) + Math.min(...largestArr);
+
+    if (number < +largestNum) {
+      return +largestNum;
+    }
+  }
+  return number;
+}
+// let res = getNearestBigger(70593255);
+// let res = getNearestBigger(123450);
+// let res = getNearestBigger(1203450);
+// let res = getNearestBigger(90822);
+// let res = getNearestBigger(4246889121494696); // 4246889121494966
+// console.log(res);
 module.exports = {
   isPositive,
   getMaxNumber,
