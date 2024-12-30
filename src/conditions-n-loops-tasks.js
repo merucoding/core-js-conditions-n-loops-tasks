@@ -473,43 +473,33 @@ function shuffleChar(str, iterations) {
  * @returns {number} The nearest larger number, or original number if none exists.
  */
 function getNearestBigger(number) {
-  const factorial = (n) => (n <= 1 ? 1 : n * factorial(n - 1));
-  const numArr = Array.from(String(number), Number);
+  let index = 0;
+  let index2 = 0;
+  const splitArr = Array.from(String(number));
 
-  for (let i = 1; i < numArr.length; i += 1) {
-    const chunk = [...numArr];
-    chunk.splice(0, chunk.length - (i + 1));
-
-    const numStart = +chunk.join('');
-    const largestArr = [];
-
-    for (let j = 0; j <= factorial(chunk.length); j += 1) {
-      for (let k = 0; k < chunk.length - 1; k += 1) {
-        [chunk[k], chunk[chunk.length - 1]] = [
-          chunk[chunk.length - 1],
-          chunk[k],
-        ];
-
-        const num = +chunk.join('');
-        if (num > numStart) largestArr.push(num);
-        j += 1;
-      }
-    }
-    const largestNum =
-      String(Math.floor(number / 10 ** chunk.length)) + Math.min(...largestArr);
-
-    if (number < +largestNum) {
-      return +largestNum;
+  for (let i = splitArr.length - 1; i >= 0; i -= 1) {
+    if (splitArr[i - 1] && splitArr[i] > splitArr[i - 1]) {
+      index = i - 1;
+      break;
     }
   }
-  return number;
+
+  for (let i = splitArr.length - 1; i >= index; i -= 1) {
+    if (splitArr[i] > splitArr[index]) {
+      index2 = i;
+      break;
+    }
+  }
+
+  const arr = [...splitArr];
+  arr[index] = splitArr[index2];
+  arr[index2] = splitArr[index];
+
+  const sortArr = arr.splice(index + 1).reverse();
+
+  return +[...arr, ...sortArr].join('');
 }
-// let res = getNearestBigger(70593255);
-// let res = getNearestBigger(123450);
-// let res = getNearestBigger(1203450);
-// let res = getNearestBigger(90822);
-// let res = getNearestBigger(4246889121494696); // 4246889121494966
-// console.log(res);
+
 module.exports = {
   isPositive,
   getMaxNumber,
